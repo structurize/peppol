@@ -1,0 +1,34 @@
+{
+    "name": "structurize/peppol",
+    "description": "Laravel package for sending invoices over peppol using structurize",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Structurize\\Peppol\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ashim De Coster",
+            "email": "ashim@deltasolutions.be"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Structurize\\Peppol\\PeppolServiceProvider"
+            ],
+            "aliases": {
+                "Peppol": "Structurize\\Peppol\\Facades\\Peppol"
+            }
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^10.0|^11.0|^12.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
+
