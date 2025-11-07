@@ -1,6 +1,6 @@
 {
     "name": "structurize/peppol",
-    "description": "Laravel package for sending invoices over peppol using structurize",
+    "description": "Laravel package for sending invoices over peppol using Structurize",
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -26,7 +26,8 @@
     },
     "require": {
         "php": "^8.1",
-        "illuminate/support": "^10.0|^11.0|^12.0"
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "structurize/structurize": "^0.2.29"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
