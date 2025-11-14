@@ -18,6 +18,17 @@ class StructurizeService
         $this->init();
         return $this->apikey;
     }
+
+    public function validateApiKey(?string $apiKey = null): bool
+    {
+        $_ENV['STRUCTURIZE_API_KEY'] = $apiKey;
+        $user = $this->getUser();
+        if(array_key_exists('message', $user) && $user['message'] === 'Unauthenticated.') {
+            return false;
+        }
+
+        return true;
+    }
     public function getUser() : array
     {
         $this->init();
@@ -69,7 +80,7 @@ class StructurizeService
         if(config('peppol.multi_tenant.enabled')){
             $tenant_model = config('peppol.multi_tenant.tenant_model');
             $tenant_attribute = config('peppol.multi_tenant.tenant_attribute');
-            $api_key = $tenant_model->{$tenant_attribute};
+            $api_key = app($tenant_model)->$tenant_attribute();
         }
         $this->apikey = $api_key;
         $_ENV['STRUCTURIZE_API_KEY'] = $this->apikey;
