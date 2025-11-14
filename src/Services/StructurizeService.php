@@ -2,7 +2,10 @@
 namespace Structurize\Peppol\Services;
 
 use Structurize\Structurize\Bricks\PeppolDocuments;
+use Structurize\Structurize\Bricks\PeppolParticipants;
+use Structurize\Structurize\Bricks\PeppolRegister;
 use Structurize\Structurize\Bricks\PeppolSend;
+use Structurize\Structurize\Bricks\PeppolUnRegister;
 use Structurize\Structurize\Bricks\UblFromInvoice;
 use \Structurize\Structurize\User;
 
@@ -41,15 +44,38 @@ class StructurizeService
     {
         return (array)(new PeppolDocuments($identifier))->run('true')->output;
     }
+
+    public function getParticipant($identifier)
+    {
+        return (array)(new PeppolParticipants($identifier))->run('true')->output;
+    }
+
+    public function registerParticipant($data)
+    {
+        return (array)(new PeppolRegister($data['email'], $data['firstname'], $data['lastname'], $data['identifier']))->run('true')->output;
+    }
+
+    public function unregisterParticipant($identifier)
+    {
+        return (array)(new PeppolUnRegister($identifier))->run('true')->output;
+    }
     private function init() : void
     {
         if (!is_null($this->apikey)) {
             return;
         }
 
-        $this->apikey = config('peppol.api_key');
+        $api_key = config('peppol.api_key');
+        if(config('peppol.multi_tenant.enabled')){
+            $tenant_table = config('peppol.multi_tenant.tenant_table', 'settings');
+            $tenant_column = config('peppol.multi_tenant.tenant_column', 'structurize_api_key');
+            $setting = \DB::table($tenant_table)->select($tenant_column)->first();
+            if (!is_null($setting) && !empty($setting->{$tenant_column})) {
+                $api_key = $setting->{$tenant_column};
+            }
+        }
+        $this->apikey = $api_key;
         $_ENV['STRUCTURIZE_API_KEY'] = $this->apikey;
-
 
     }
 }

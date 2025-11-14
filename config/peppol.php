@@ -24,4 +24,9 @@ return [
             'peppol_sent_at' => 'peppol_sent_at',
         ],
     ],
+    'multi_tenant' => [
+        'enabled' => false,
+        'tenant_table' => 'settings',
+        'tenant_column' => 'structurize_api_key',
+    ]
 ];

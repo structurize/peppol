@@ -6,7 +6,12 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create(config('peppol.tables.invoice_logging', 'peppol_invoice_logging'), function (Blueprint $table) {
+        $tableName = config('peppol.tables.invoice_logging', 'peppol_invoice_logging');
+        if(Schema::hasTable($tableName)) {
+            return;
+        }
+
+        Schema::create($tableName, function (Blueprint $table) {
             $table->id();
             $table->boolean('success')->default(0);
             $table->unsignedBigInteger('invoice_id')->default(0);

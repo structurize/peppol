@@ -7,17 +7,33 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::table(config('peppol.tables.companies', 'companies'), function (Blueprint $table) {
-            $table->boolean(config('peppol.table-fields.companies.peppol_connected', 'peppol_connected'))->default(0);
-            $table->string(config('peppol.table-fields.companies.peppol_scheme_id', 'peppol_scheme_id'))->nullable();
+        $tableName = config('peppol.tables.companies', 'companies');
+        $booleanField = config('peppol.table-fields.companies.peppol_connected', 'peppol_connected');
+        $stringField = config('peppol.table-fields.companies.peppol_scheme_id', 'peppol_scheme_id');
+
+        Schema::table($tableName, function (Blueprint $table) use ($tableName,$booleanField, $stringField) {
+            if(!Schema::hasColumn($tableName, $booleanField)) {
+                $table->boolean($booleanField)->default(0);
+            }
+            if(!Schema::hasColumn($tableName, $stringField)) {
+                $table->string($stringField)->nullable();
+            }
         });
     }
 
     public function down(): void
     {
-        Schema::table(config('peppol.tables.companies', 'companies'), function (Blueprint $table) {
-            $table->dropColumn(config('peppol.table-fields.companies.peppol_connected', 'peppol_connected'));
-            $table->dropColumn(config('peppol.table-fields.companies.peppol_scheme_id', 'peppol_scheme_id'));
+        $tableName = config('peppol.tables.companies', 'companies');
+        $booleanField = config('peppol.table-fields.companies.peppol_connected', 'peppol_connected');
+        $stringField = config('peppol.table-fields.companies.peppol_scheme_id', 'peppol_scheme_id');
+
+        Schema::table($tableName, function (Blueprint $table) use ($tableName,$booleanField, $stringField) {
+            if(Schema::hasColumn($tableName, $booleanField)) {
+                $table->dropColumn($booleanField);
+            }
+            if(Schema::hasColumn($tableName, $stringField)) {
+                $table->dropColumn($stringField);
+            }
         });
     }
 };

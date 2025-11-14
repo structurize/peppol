@@ -88,6 +88,19 @@ class PeppolService
         return false;
     }
 
+    public function onBoarding($data, $vat){
+        $identifiers = $this->getPEPPOLIdentifiers($vat);
+        $answer = ['success' => false, 'answer' => 'No identifiers found'];
+        if(sizeof($identifiers)){
+            foreach ($identifiers as $identifier) {
+                $data['identifier'] = $identifier;
+                $answer  = $this->structurizeService->registerParticipant($data);
+            }
+        }
+
+        return $answer;
+    }
+
     private function canSendInvoices($identifier, $company = null): bool
     {
         $company_id = config('peppol.table-fields.companies.id', 'id');
