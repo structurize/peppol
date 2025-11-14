@@ -67,12 +67,9 @@ class StructurizeService
 
         $api_key = config('peppol.api_key');
         if(config('peppol.multi_tenant.enabled')){
-            $tenant_table = config('peppol.multi_tenant.tenant_table', 'settings');
-            $tenant_column = config('peppol.multi_tenant.tenant_column', 'structurize_api_key');
-            $setting = \DB::table($tenant_table)->select($tenant_column)->first();
-            if (!is_null($setting) && !empty($setting->{$tenant_column})) {
-                $api_key = $setting->{$tenant_column};
-            }
+            $tenant_model = config('peppol.multi_tenant.tenant_model');
+            $tenant_attribute = config('peppol.multi_tenant.tenant_attribute');
+            $api_key = $tenant_model->{$tenant_attribute};
         }
         $this->apikey = $api_key;
         $_ENV['STRUCTURIZE_API_KEY'] = $this->apikey;

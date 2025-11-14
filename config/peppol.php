@@ -26,7 +26,7 @@ return [
     ],
     'multi_tenant' => [
         'enabled' => false,
-        'tenant_table' => 'settings',
-        'tenant_column' => 'structurize_api_key',
+        'tenant_model' => \Structurize\Peppol\Models\Setting::class,
+        'tenant_attribute' => 'structurize_api_key',
     ]
 ];
