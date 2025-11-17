@@ -74,14 +74,21 @@ class PeppolService
         }
     }
 
-    public function checkIdentifiers($vat, $firma = null)
+    public function checkIdentifiers($vat, $firma = null, $check_registered_digital = false)
     {
         $identifiers = $this->getPEPPOLIdentifiers($vat);
         if (sizeof($identifiers)) {
             foreach ($identifiers as $identifier) {
-                $can_send = $this->canSendInvoices($identifier, $firma);
-                if ($can_send) {
-                    return true;
+                if($check_registered_digital) {
+                    $is_registered = $this->structurizeService->getParticipant($identifier);
+                    if (sizeof($is_registered) && isset($is_registered['peppolIdentifier'])) {
+                       return true;
+                    }
+                }else {
+                    $can_send = $this->canSendInvoices($identifier, $firma);
+                    if ($can_send) {
+                        return true;
+                    }
                 }
             }
         }
