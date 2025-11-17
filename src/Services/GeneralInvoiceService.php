@@ -28,7 +28,7 @@ class GeneralInvoiceService
             'bic' => '',
             'peppol_id' => '',
         ];
-        $this->client_date = [
+        $this->client_data = [
             'name' => '',
             'address' => '',
             'city' => '',
