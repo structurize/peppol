@@ -7,12 +7,9 @@ use Structurize\Structurize\Generator\Tax;
 
 class GeneralInvoiceService
 {
-    private \Structurize\Peppol\Models\Invoice $invoice;
-    /**
-     * @var array|string[]
-     */
-    private array $supplier_data;
-    private array $client_data;
+    protected $invoice;
+    protected array $supplier_data;
+    protected array $client_data;
 
     public function __construct(private StructurizeService $structurizeService)
     {
@@ -93,7 +90,7 @@ class GeneralInvoiceService
         return $this->structurizeService->makeUblDocument($general_invoice);
     }
 
-    private function setSupplier(Invoice $general_invoice)
+    public function setSupplier(Invoice $general_invoice)
     {
         $general_invoice->setSupplierName($this->supplier_data['name']);
         $general_invoice->setSupplierAddress(
@@ -103,7 +100,7 @@ class GeneralInvoiceService
             country: $this->supplier_data['country']);
         $general_invoice->setSupplierVAT($this->supplier_data['vat']);
         if (filled($this->supplier_data['iban'])) {
-                $general_invoice->setSupplierIBAN($this->supplier_data['iban']);
+            $general_invoice->setSupplierIBAN($this->supplier_data['iban']);
         }
         if (filled($this->supplier_data['bic'])) {
             $general_invoice->setSupplierBIC($this->supplier_data['bic']);
@@ -145,7 +142,7 @@ class GeneralInvoiceService
         return $general_invoice;
     }
 
-    private function getLines()
+    public function getLines()
     {
         $invoiceLines = [];
         $counter      = 0;
@@ -167,7 +164,7 @@ class GeneralInvoiceService
         return $invoiceLines;
     }
 
-    private function setTaxes(Invoice $general_invoice)
+    public function setTaxes(Invoice $general_invoice)
     {
         $vats = $taxs = [];
 
@@ -196,7 +193,7 @@ class GeneralInvoiceService
         return $general_invoice;
     }
 
-    private function setDocument($general_invoice)
+    public function setDocument($general_invoice)
     {
         if(!is_null($this->pdf_stream)) {
             $general_invoice->setFileStream(base64_encode($this->pdf_stream));
@@ -206,7 +203,7 @@ class GeneralInvoiceService
         return $general_invoice;
     }
 
-    private function getSubtotal($line)
+    public function getSubtotal($line)
     {
         return round($line->subtotal, 2);
     }
