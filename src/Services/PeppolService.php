@@ -61,12 +61,11 @@ class PeppolService
     {
         if (!is_null($invoice_id)) {
             $company_peppol_connected = config('peppol.table-fields.companies.peppol_connected', 'peppol_connected');
-            $company_peppol_scheme_id = config('peppol.table-fields.companies.peppol_scheme_id', 'peppol_scheme_id');
             $company_vat_number = config('peppol.table-fields.companies.vat_number', 'vat_number');
 
             $invoice = Invoice::find($invoice_id);
             if (!is_null($invoice) && !is_null($invoice->company)) {
-                if (!is_null($invoice->company->{$company_peppol_connected}) && $invoice->company->{$company_peppol_scheme_id}) {
+                if (!is_null($invoice->company->{$company_peppol_connected}) && $invoice->company->{$company_peppol_connected}) {
                     return true;
                 }
                 return $this->checkIdentifiers($invoice->company->{$company_vat_number}, $invoice->company);
