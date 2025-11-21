@@ -49,7 +49,7 @@ class StructurizeService
     public function sendUblDocument($filename, $stream) : array
     {
         $this->init();
-        return (array)(new PeppolSend(filename: $filename, ubl: $stream))->run('true')->output;
+        return (array)(new PeppolSend($filename, $stream))->run('true')->output;
     }
     public function getSupportedDocuments($identifier)
     {
