@@ -10,13 +10,16 @@ class GeneralInvoiceService
     protected $invoice;
     protected array $supplier_data;
     protected array $client_data;
+    private StructurizeService $structurizeService;
 
-    public function __construct(private StructurizeService $structurizeService)
+    public function __construct(StructurizeService $structurizeService)
     {
-        $this->invoice = new \Structurize\Peppol\Models\Invoice();
-        $this->supplier_data = [
+        $this->structurizeService = $structurizeService;
+        $this->invoice            = new \Structurize\Peppol\Models\Invoice();
+        $this->supplier_data      = [
             'name' => '',
-            'address' => '',
+            'street' => '',
+            'number' => '',
             'city' => '',
             'zipcode' => '',
             'country' => 'BE',
@@ -27,7 +30,8 @@ class GeneralInvoiceService
         ];
         $this->client_data = [
             'name' => '',
-            'address' => '',
+            'street' => '',
+            'number' => '',
             'city' => '',
             'zipcode' => '',
             'country' => 'BE',
@@ -94,10 +98,11 @@ class GeneralInvoiceService
     {
         $general_invoice->setSupplierName($this->supplier_data['name']);
         $general_invoice->setSupplierAddress(
-            street: $this->supplier_data['address'],
-            city: $this->supplier_data['city'],
-            zipcode: $this->supplier_data['zipcode'],
-            country: $this->supplier_data['country']);
+            $this->supplier_data['street'],
+            $this->supplier_data['number'],
+            $this->supplier_data['city'],
+            $this->supplier_data['zipcode'],
+            $this->supplier_data['country']);
         $general_invoice->setSupplierVAT($this->supplier_data['vat']);
         if (filled($this->supplier_data['iban'])) {
             $general_invoice->setSupplierIBAN($this->supplier_data['iban']);
@@ -113,10 +118,11 @@ class GeneralInvoiceService
     {
 
         $general_invoice->setCustomerAddress(
-            street: (filled($this->client_data['address']) ? $this->client_data['address'] : '-'),
-            city: $this->client_data['city'],
-            zipcode: $this->client_data['zipcode'],
-            country: !is_null($this->client_data['country']) && $this->client_data['country'] != '' ? $this->client_data['country'] : 'BE');
+            (filled($this->client_data['street']) ? $this->client_data['street'] : '-'),
+            (filled($this->client_data['number']) ? $this->client_data['number'] : '-'),
+            $this->client_data['city'],
+            $this->client_data['zipcode'],
+           !is_null($this->client_data['country']) && $this->client_data['country'] != '' ? $this->client_data['country'] : 'BE');
         $general_invoice->setCustomerName($this->client_data['name']);
 
         $vat = (!is_null($this->client_data['vat']) && trim($this->client_data['vat']) != '' && strpos($this->client_data['vat'], 'BE') === false) ? 'BE' . $this->client_data['vat'] : $this->client_data['vat'];
@@ -127,7 +133,7 @@ class GeneralInvoiceService
         }
 
         if ($this->client_data['peppol_id'] != '') {
-            $general_invoice->setFullPeppolId($this->client_data['peppol_id']);
+            $general_invoice->setCustomerFullPeppolId($this->client_data['peppol_id']);
         }
 
         $general_invoice->setCustomerContactName($this->client_data['contact_name']);
