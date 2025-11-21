@@ -8,6 +8,7 @@ use Structurize\Peppol\Services\PeppolService;
 
 class SyncPeppolCompany extends Command
 {
+    const SUCCESS = 1;
     protected $signature = 'peppol:sync-companies';
     protected $description = 'This command synchronizes companies connected with Peppol';
 
