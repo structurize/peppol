@@ -637,16 +637,16 @@
         },
         {
             "name": "structurize/structurize",
-            "version": "v0.2.32",
+            "version": "v0.2.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/structurize/structurize.git",
-                "reference": "58cca81a8f57b05a5fb3f5d84f0f2276b2288b39"
+                "reference": "ef2b70bd772c03b5d80ebb20d35ca351c559c48c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/structurize/structurize/zipball/58cca81a8f57b05a5fb3f5d84f0f2276b2288b39",
-                "reference": "58cca81a8f57b05a5fb3f5d84f0f2276b2288b39",
+                "url": "https://api.github.com/repos/structurize/structurize/zipball/ef2b70bd772c03b5d80ebb20d35ca351c559c48c",
+                "reference": "ef2b70bd772c03b5d80ebb20d35ca351c559c48c",
                 "shasum": ""
             },
             "type": "library",
@@ -665,9 +665,9 @@
             "description": "This package serves as a tool to seamlessly connect with the Structurize API.",
             "support": {
                 "issues": "https://github.com/structurize/structurize/issues",
-                "source": "https://github.com/structurize/structurize/tree/v0.2.32"
+                "source": "https://github.com/structurize/structurize/tree/v0.2.33"
             },
-            "time": "2025-10-16T10:10:01+00:00"
+            "time": "2025-11-21T13:18:40+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
