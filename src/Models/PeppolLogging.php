@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PeppolLogging extends Model
 {
     protected $table;
+    protected $connection = 'mysql';
 
     protected $fillable = [
         'invoice_id',
@@ -18,5 +19,6 @@ class PeppolLogging extends Model
     {
         parent::__construct($attributes);
         $this->table = config('peppol.tables.invoice_logging', 'peppol_invoice_logging');
+        $this->connection = config('peppol.database_connection', 'mysql');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 return [
     'api_key' => 'STRUCTURIZE_API_KEY',
+    'database_connection' => 'mysql',
     'tables' => [
         'companies' => 'companies',
         'invoices' => 'invoices',
