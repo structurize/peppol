@@ -107,7 +107,7 @@ class PeppolService
         return $answer;
     }
 
-    private function canSendInvoices($identifier, $company = null): bool
+    private function canSendInvoices($identifier, $company = null)
     {
         $company_id = config('peppol.table-fields.companies.id', 'id');
         $company_peppol_connected = config('peppol.table-fields.companies.peppol_connected', 'peppol_connected');
@@ -127,11 +127,7 @@ class PeppolService
         return false;
     }
 
-    /**
-     * @param mixed $invoice
-     * @return array
-     */
-    private function getSendUbl(mixed $invoice, $identifier_overrule = null): array
+    private function getSendUbl($invoice, $identifier_overrule = null)
     {
         $invoice_number = config('peppol.table-fields.invoices.number', 'number');
         $general_invoice_service = app(config('peppol.services.general-invoice', GeneralInvoiceService::class));
