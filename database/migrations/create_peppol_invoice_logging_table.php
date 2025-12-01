@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 class create_peppol_invoice_logging_table extends Migration {
     public function up()
     {
-        $tableName = config('peppol.tables.invoice_logging', 'peppol_invoice_logging');
+        $tableName = \Config::get('peppol.tables.invoice_logging', 'peppol_invoice_logging');
         if(Schema::hasTable($tableName)) {
             return;
         }
@@ -25,6 +25,6 @@ class create_peppol_invoice_logging_table extends Migration {
 
     public function down()
     {
-        Schema::dropIfExists(config('peppol.tables.invoice_logging', 'peppol_invoice_logging'));
+        Schema::dropIfExists(\Config::get('peppol.tables.invoice_logging', 'peppol_invoice_logging'));
     }
 };

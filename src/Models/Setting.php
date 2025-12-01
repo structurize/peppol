@@ -10,7 +10,7 @@ class Setting extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->connection = config('peppol.database_connection', 'mysql');
+        $this->connection = \Config::get('peppol.database_connection', 'mysql');
     }
     public function structurizeApiKey()
     {

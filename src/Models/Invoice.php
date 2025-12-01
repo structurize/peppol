@@ -12,12 +12,12 @@ class Invoice extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = config('peppol.tables.invoices', 'invoices');
-        $this->connection = config('peppol.database_connection', 'mysql');
+        $this->table = \Config::get('peppol.tables.invoices', 'invoices');
+        $this->connection = \Config::get('peppol.database_connection', 'mysql');
     }
 
     public function company()
     {
-        return $this->belongsTo(Company::class, config('peppol.table-fields.invoices.company_id', 'company_id'));
+        return $this->belongsTo(Company::class, \Config::get('peppol.table-fields.invoices.company_id', 'company_id'));
     }
 }

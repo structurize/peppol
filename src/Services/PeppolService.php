@@ -27,13 +27,13 @@ class PeppolService
 
     public function sendUbl($stream, $filename, $invoice)
     {
-        $company_id               = config('peppol.table-fields.companies.id', 'id');
-        $invoice_id               = config('peppol.table-fields.invoices.id', 'id');
-        $invoice_peppol_sent      = config('peppol.table-fields.invoices.peppol_sent', 'peppol_sent');
-        $invoice_peppol_sent_at   = config('peppol.table-fields.invoices.peppol_sent_at', 'peppol_sent_at');
-        $invoice_company_id       = config('peppol.table-fields.invoices.company_id', 'company_id');
-        $company_peppol_connected = config('peppol.table-fields.companies.peppol_connected', 'peppol_connected');
-        $company_peppol_scheme_id = config('peppol.table-fields.companies.peppol_scheme_id', 'peppol_scheme_id');
+        $company_id               = \Config::get('peppol.table-fields.companies.id', 'id');
+        $invoice_id               = \Config::get('peppol.table-fields.invoices.id', 'id');
+        $invoice_peppol_sent      = \Config::get('peppol.table-fields.invoices.peppol_sent', 'peppol_sent');
+        $invoice_peppol_sent_at   = \Config::get('peppol.table-fields.invoices.peppol_sent_at', 'peppol_sent_at');
+        $invoice_company_id       = \Config::get('peppol.table-fields.invoices.company_id', 'company_id');
+        $company_peppol_connected = \Config::get('peppol.table-fields.companies.peppol_connected', 'peppol_connected');
+        $company_peppol_scheme_id = \Config::get('peppol.table-fields.companies.peppol_scheme_id', 'peppol_scheme_id');
 
         if ($this->canPeppol($invoice->{$invoice_id})) {
             $answer = $this->structurizeService->sendUblDocument($filename, $stream);
@@ -60,8 +60,8 @@ class PeppolService
     public function canPeppol($invoice_id)
     {
         if (!is_null($invoice_id)) {
-            $company_peppol_connected = config('peppol.table-fields.companies.peppol_connected', 'peppol_connected');
-            $company_vat_number = config('peppol.table-fields.companies.vat_number', 'vat_number');
+            $company_peppol_connected = \Config::get('peppol.table-fields.companies.peppol_connected', 'peppol_connected');
+            $company_vat_number = \Config::get('peppol.table-fields.companies.vat_number', 'vat_number');
 
             $invoice = Invoice::find($invoice_id);
             if (!is_null($invoice) && !is_null($invoice->company)) {
@@ -109,9 +109,9 @@ class PeppolService
 
     private function canSendInvoices($identifier, $company = null)
     {
-        $company_id = config('peppol.table-fields.companies.id', 'id');
-        $company_peppol_connected = config('peppol.table-fields.companies.peppol_connected', 'peppol_connected');
-        $company_peppol_scheme_id = config('peppol.table-fields.companies.peppol_scheme_id', 'peppol_scheme_id');
+        $company_id = \Config::get('peppol.table-fields.companies.id', 'id');
+        $company_peppol_connected = \Config::get('peppol.table-fields.companies.peppol_connected', 'peppol_connected');
+        $company_peppol_scheme_id = \Config::get('peppol.table-fields.companies.peppol_scheme_id', 'peppol_scheme_id');
 
         $answer = $this->structurizeService->getSupportedDocuments($identifier);
         if (filled($answer) && isset($answer['documentTypes'])) {
@@ -129,8 +129,8 @@ class PeppolService
 
     private function getSendUbl($invoice, $identifier_overrule = null)
     {
-        $invoice_number = config('peppol.table-fields.invoices.number', 'number');
-        $general_invoice_service = app(config('peppol.services.general-invoice', GeneralInvoiceService::class));
+        $invoice_number = \Config::get('peppol.table-fields.invoices.number', 'number');
+        $general_invoice_service = app(\Config::get('peppol.services.general-invoice', GeneralInvoiceService::class));
         $ubl                     = $general_invoice_service->generate($invoice, $identifier_overrule);
         $filename                = 'UBL_' . $invoice->{$invoice_number} . '.xml';
 

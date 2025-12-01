@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Schema;
 class add_invoice_peppol_fields extends Migration {
     public function up()
     {
-        $tableName = config('peppol.tables.invoices', 'invoices');
-        $booleanField = config('peppol.table-fields.invoices.peppol_sent', 'peppol_sent');
-        $datetimeField = config('peppol.table-fields.invoices.peppol_sent_at', 'peppol_sent_at');
+        $tableName = \Config::get('peppol.tables.invoices', 'invoices');
+        $booleanField = \Config::get('peppol.table-fields.invoices.peppol_sent', 'peppol_sent');
+        $datetimeField = \Config::get('peppol.table-fields.invoices.peppol_sent_at', 'peppol_sent_at');
 
         Schema::table($tableName, function (Blueprint $table) use ($tableName, $booleanField, $datetimeField) {
             if(!Schema::hasColumn($tableName, $booleanField)) {
@@ -23,9 +23,9 @@ class add_invoice_peppol_fields extends Migration {
 
     public function down()
     {
-        $tableName = config('peppol.tables.invoices', 'invoices');
-        $booleanField = config('peppol.table-fields.invoices.peppol_sent', 'peppol_sent');
-        $datetimeField = config('peppol.table-fields.invoices.peppol_sent_at', 'peppol_sent_at');
+        $tableName = \Config::get('peppol.tables.invoices', 'invoices');
+        $booleanField = \Config::get('peppol.table-fields.invoices.peppol_sent', 'peppol_sent');
+        $datetimeField = \Config::get('peppol.table-fields.invoices.peppol_sent_at', 'peppol_sent_at');
 
         Schema::table($tableName, function (Blueprint $table) use ($tableName, $booleanField, $datetimeField) {
             if(Schema::hasColumn($tableName, $booleanField)) {

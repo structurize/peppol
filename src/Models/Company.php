@@ -10,7 +10,7 @@ class Company extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = config('peppol.tables.companies', 'companies');
-        $this->connection = config('peppol.database_connection', 'mysql');
+        $this->table = \Config::get('peppol.tables.companies', 'companies');
+        $this->connection = \Config::get('peppol.database_connection', 'mysql');
     }
 }

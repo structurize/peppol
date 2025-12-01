@@ -18,7 +18,7 @@ class PeppolLogging extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = config('peppol.tables.invoice_logging', 'peppol_invoice_logging');
-        $this->connection = config('peppol.database_connection', 'mysql');
+        $this->table = \Config::get('peppol.tables.invoice_logging', 'peppol_invoice_logging');
+        $this->connection = \Config::get('peppol.database_connection', 'mysql');
     }
 }

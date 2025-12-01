@@ -76,10 +76,10 @@ class StructurizeService
             return;
         }
 
-        $api_key = config('peppol.api_key');
-        if(config('peppol.multi_tenant.enabled')){
-            $tenant_model = config('peppol.multi_tenant.tenant_model');
-            $tenant_attribute = config('peppol.multi_tenant.tenant_attribute');
+        $api_key = \Config::get('peppol.api_key');
+        if(\Config::get('peppol.multi_tenant.enabled')){
+            $tenant_model = \Config::get('peppol.multi_tenant.tenant_model');
+            $tenant_attribute = \Config::get('peppol.multi_tenant.tenant_attribute');
             $api_key = app($tenant_model)->$tenant_attribute();
         }
         $this->apikey = $api_key;
