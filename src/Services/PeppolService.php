@@ -114,7 +114,7 @@ class PeppolService
         $company_peppol_scheme_id = \Config::get('peppol.table-fields.companies.peppol_scheme_id', 'peppol_scheme_id');
 
         $answer = $this->structurizeService->getSupportedDocuments($identifier);
-        if (filled($answer) && isset($answer['documentTypes'])) {
+        if (!empty($answer) && isset($answer['documentTypes'])) {
             foreach ($answer['documentTypes'] as $documentType) {
                 if (strpos($documentType, 'Invoice') !== false) {
                     if (!is_null($company)) {
