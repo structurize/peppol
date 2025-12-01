@@ -8,9 +8,9 @@ use Structurize\Structurize\Generator\Tax;
 class GeneralInvoiceService
 {
     protected $invoice;
-    protected array $supplier_data;
-    protected array $client_data;
-    private StructurizeService $structurizeService;
+    protected $supplier_data;
+    protected $client_data;
+    private $structurizeService;
 
     public function __construct(StructurizeService $structurizeService)
     {
@@ -47,16 +47,16 @@ class GeneralInvoiceService
         $this->pdf_stream = null;
     }
 
-    public function setPdfStream($stream): void
+    public function setPdfStream($stream)
     {
         $this->pdf_stream = $stream;
     }
-    public function setSupplierData(array $data): void
+    public function setSupplierData(array $data)
     {
         $this->supplier_data = $data;
     }
 
-    public function setClientData(array $data): void
+    public function setClientData(array $data)
     {
         $this->client_data = $data;
     }

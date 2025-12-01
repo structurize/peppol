@@ -12,7 +12,7 @@ class SyncPeppolCompany extends Command
     protected $signature = 'peppol:sync-companies';
     protected $description = 'This command synchronizes companies connected with Peppol';
 
-    public function handle(PeppolService $svc): int
+    public function handle(PeppolService $svc)
     {
         ini_set('memory_limit', '1024M');
 
@@ -26,7 +26,7 @@ class SyncPeppolCompany extends Command
         return self::SUCCESS;
     }
 
-    private function checkCompanies(): void
+    private function checkCompanies()
     {
         $vat_number = config('peppol.table-fields.companies.vat_number', 'vat_number');
         $company_id = config('peppol.table-fields.companies.id', 'id');

@@ -11,15 +11,15 @@ use \Structurize\Structurize\User;
 
 class StructurizeService
 {
-    public ?string $apikey = null;
+    public $apikey = null;
     public function __construct(){}
-    public function getApiKey() : ?string
+    public function getApiKey()
     {
         $this->init();
         return $this->apikey;
     }
 
-    public function validateApiKey(?string $apiKey = null): bool
+    public function validateApiKey($apiKey = null)
     {
         $_ENV['STRUCTURIZE_API_KEY'] = $apiKey;
         $user = $this->getUser();
@@ -29,7 +29,7 @@ class StructurizeService
 
         return true;
     }
-    public function getUser() : array
+    public function getUser()
     {
         $this->init();
         if (!empty($this->apikey)) {
@@ -46,7 +46,7 @@ class StructurizeService
         $this->init();
         return (new UblFromInvoice($invoice))->run('true')->output;
     }
-    public function sendUblDocument($filename, $stream) : array
+    public function sendUblDocument($filename, $stream)
     {
         $this->init();
         return (array)(new PeppolSend($filename, $stream))->run('true')->output;
@@ -70,7 +70,7 @@ class StructurizeService
     {
         return (array)(new PeppolUnRegister($identifier))->run('true')->output;
     }
-    private function init() : void
+    private function init()
     {
         if (!is_null($this->apikey)) {
             return;

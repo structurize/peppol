@@ -3,8 +3,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-    public function up(): void
+class create_peppol_invoice_logging_table extends Migration {
+    public function up()
     {
         $tableName = config('peppol.tables.invoice_logging', 'peppol_invoice_logging');
         if(Schema::hasTable($tableName)) {
@@ -23,7 +23,7 @@ return new class extends Migration {
         });
     }
 
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists(config('peppol.tables.invoice_logging', 'peppol_invoice_logging'));
     }

@@ -4,8 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-    public function up(): void
+class add_invoice_peppol_fields extends Migration {
+    public function up()
     {
         $tableName = config('peppol.tables.invoices', 'invoices');
         $booleanField = config('peppol.table-fields.invoices.peppol_sent', 'peppol_sent');
@@ -21,7 +21,7 @@ return new class extends Migration {
         });
     }
 
-    public function down(): void
+    public function down()
     {
         $tableName = config('peppol.tables.invoices', 'invoices');
         $booleanField = config('peppol.table-fields.invoices.peppol_sent', 'peppol_sent');

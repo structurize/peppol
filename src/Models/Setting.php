@@ -12,10 +12,12 @@ class Setting extends Model
         parent::__construct($attributes);
         $this->connection = config('peppol.database_connection', 'mysql');
     }
-    public function structurizeApiKey(): Attribute
+    public function structurizeApiKey()
     {
         return new Attribute(
-            get: fn() => $this->structurize_api_key,
+            function () {
+                return $this->structurize_api_key;
+            }
         );
     }
 }

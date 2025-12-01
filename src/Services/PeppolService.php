@@ -9,7 +9,7 @@ use Structurize\Peppol\Models\PeppolLogging;
 
 class PeppolService
 {
-    private StructurizeService $structurizeService;
+    private $structurizeService;
 
     public function __construct(StructurizeService $structurizeService)
     {
@@ -116,7 +116,7 @@ class PeppolService
         $answer = $this->structurizeService->getSupportedDocuments($identifier);
         if (filled($answer) && isset($answer['documentTypes'])) {
             foreach ($answer['documentTypes'] as $documentType) {
-                if (str_contains($documentType, 'Invoice')) {
+                if (strpos($documentType, 'Invoice') !== false) {
                     if (!is_null($company)) {
                         Company::where($company_id, $company->{$company_id})->update([$company_peppol_connected => 1, $company_peppol_scheme_id => ($company->{$company_peppol_scheme_id} != '' ? $company->{$company_peppol_scheme_id} : $answer['peppolIdentifier'])], false);
                     }
