@@ -1,6 +1,2 @@
 /vendor/
-/.idea/laravel-idea-personal.xml
-/.idea/blade.xml
-/.idea/structurize-peppol.iml
-/.idea/php.xml
-/.idea/laravel-idea.xml
+/.idea/*
