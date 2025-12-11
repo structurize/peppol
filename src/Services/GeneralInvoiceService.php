@@ -61,7 +61,7 @@ class GeneralInvoiceService
         $this->client_data = $data;
     }
 
-    public function generate($invoice, $identifier_overrule = null)
+    public function generate($invoice, $identifier_overrule = null, $attachments = null)
     {
         $this->invoice   = $invoice;
         $general_invoice = new Invoice();
@@ -74,7 +74,7 @@ class GeneralInvoiceService
         $general_invoice->setDocumentType($this->invoice->total_incl < 0 ? 'CreditNote' : 'Invoice');
 
 
-        $general_invoice = $this->setDocument($general_invoice);
+        $general_invoice = $this->setDocument($general_invoice, $attachments);
         $general_invoice = $this->setSupplier($general_invoice);
         $general_invoice = $this->setClient($general_invoice);
 
@@ -199,11 +199,15 @@ class GeneralInvoiceService
         return $general_invoice;
     }
 
-    public function setDocument($general_invoice)
+    public function setDocument($general_invoice, $attachments = null)
     {
         if(!is_null($this->pdf_stream)) {
             $general_invoice->setFileStream(base64_encode($this->pdf_stream));
             $general_invoice->setFileName('factuur_' . $this->invoice->number . '.pdf');
+        }
+
+        if (!is_null($attachments) && is_array($attachments)) {
+            $general_invoice->setAttachments(attachments);            
         }
 
         return $general_invoice;

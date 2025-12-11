@@ -17,11 +17,11 @@ class PeppolService
         $this->structurizeService = $structurizeService;
     }
 
-    public function sendInvoice($invoice)
+    public function sendInvoice($invoice, $attachments = null)
     {
-        $answer = $this->getSendUbl($invoice);
+        $answer = $this->getSendUbl($invoice, null, $attachments);
         if ($answer['answer']->status == 'RECIPIENT_NOT_IN_PEPPOL') {
-            $answer = $this->getSendUbl($invoice, '0208');
+            $answer = $this->getSendUbl($invoice, '0208', $attachments);
         }
         return $answer;
     }
@@ -132,11 +132,11 @@ class PeppolService
         return false;
     }
 
-    private function getSendUbl($invoice, $identifier_overrule = null)
+    private function getSendUbl($invoice, $identifier_overrule = null, $attachments = null)
     {
         $invoice_number = \Config::get('peppol.table-fields.invoices.number', 'number');
         $general_invoice_service = app(\Config::get('peppol.services.general-invoice', GeneralInvoiceService::class));
-        $ubl                     = $general_invoice_service->generate($invoice, $identifier_overrule);
+        $ubl                     = $general_invoice_service->generate($invoice, $identifier_overrule, $attachments);
         $filename                = 'UBL_' . $invoice->{$invoice_number} . '.xml';
 
         $answer = $this->sendUbl($ubl, $filename, $invoice);
