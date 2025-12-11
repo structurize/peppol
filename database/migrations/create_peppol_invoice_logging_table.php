@@ -14,8 +14,7 @@ class create_peppol_invoice_logging_table extends Migration {
         Schema::create($tableName, function (Blueprint $table) {
             $table->id();
             $table->boolean('success')->default(0);
-            $table->unsignedBigInteger('invoice_id')->default(0);
-            $table->text('send_data')->nullable();
+            $table->unsignedBigInteger('invoice_id')->default(0);        
             $table->text('return_data')->nullable();
             $table->timestamps();
 

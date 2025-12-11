@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use Structurize\Peppol\Models\Company;
 use Structurize\Peppol\Models\Invoice;
 use Structurize\Peppol\Models\PeppolLogging;
+use Structurize\Peppol\Models\PeppolLoggingData;
 
 class PeppolService
 {
@@ -37,11 +38,15 @@ class PeppolService
 
         if ($this->canPeppol($invoice->{$invoice_id})) {
             $answer = $this->structurizeService->sendUblDocument($filename, $stream);
-            PeppolLogging::create([
+            $logging = PeppolLogging::create([
                 'invoice_id' => $invoice->{$invoice_id},
-                'send_data' => $stream,
                 'success' => $answer['success'],
                 'return_data' => json_encode($answer['answer']) ?? null
+            ]);
+            
+            PeppolLoggingData::create([
+                'peppol_invoice_logging_id' => $logging->id,
+                'send_data' => $stream,
             ]);
 
             if ($answer['success']) {

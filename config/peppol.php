@@ -6,6 +6,7 @@ return [
         'companies' => 'companies',
         'invoices' => 'invoices',
         'invoice_logging' => 'peppol_invoice_logging',
+        'invoice_logging_data' => 'peppol_invoice_logging_data',
     ],
     'services' => [
         'general-invoice' => \Structurize\Peppol\Services\GeneralInvoiceService::class
