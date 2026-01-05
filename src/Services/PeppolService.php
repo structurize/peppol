@@ -3,6 +3,7 @@
 namespace Structurize\Peppol\Services;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Structurize\Peppol\Models\Company;
 use Structurize\Peppol\Models\Invoice;
 use Structurize\Peppol\Models\PeppolLogging;
@@ -81,6 +82,14 @@ class PeppolService
     public function checkIdentifiers($vat, $firma = null, $check_registered_digital = false)
     {
         $identifiers = $this->getPEPPOLIdentifiers($vat);
+
+        if(!is_null($firma) && !$check_registered_digital){
+            $company_peppol_scheme_id = \Config::get('peppol.table-fields.companies.peppol_scheme_id', 'peppol_scheme_id');
+            if(!is_null($firma->{$company_peppol_scheme_id}) && $firma->{$company_peppol_scheme_id} != '' ) {
+                array_unshift($identifiers, $firma->{$company_peppol_scheme_id});
+            }
+        }
+
         if (sizeof($identifiers)) {
             foreach ($identifiers as $identifier) {
                 if($check_registered_digital) {
@@ -123,12 +132,18 @@ class PeppolService
             foreach ($answer['documentTypes'] as $documentType) {
                 if (strpos($documentType, 'Invoice') !== false) {
                     if (!is_null($company)) {
-                        Company::where($company_id, $company->{$company_id})->update([$company_peppol_connected => 1, $company_peppol_scheme_id => ($company->{$company_peppol_scheme_id} != '' ? $company->{$company_peppol_scheme_id} : $answer['peppolIdentifier'])], false);
+                        Company::where($company_id, $company->{$company_id})->update([$company_peppol_connected => 1, $company_peppol_scheme_id => ($answer['peppolIdentifier'])], false);
                     }
                     return true;
                 }
             }
         }
+
+        if(!is_null($company) && !is_null($company->$company_peppol_scheme_id) && $company->$company_peppol_scheme_id == $identifier) {
+            Session::flash('message', 'The PEPPOL identifier ' . $identifier . ' is no valid for sending invoices or does not support invoices anymore.');
+            Session::flash('danger');
+        }
+
         return false;
     }
 
