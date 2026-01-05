@@ -207,7 +207,14 @@ class GeneralInvoiceService
         }
 
         if (!is_null($attachments) && is_array($attachments)) {
-            $general_invoice->setAttachments(attachments);            
+            $attachments_array = [];
+            foreach ($attachments as $attachment) {
+                $attachment_item = new Attachment();
+                $attachment_item->setStream($attachment['stream']);
+                $attachment_item->setName($attachment['name']);
+                $attachments_array[] = $attachment_item;
+            }
+            $general_invoice->setAttachments($attachments_array);       
         }
 
         return $general_invoice;
