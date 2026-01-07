@@ -23,7 +23,6 @@ class SyncPeppolCompany extends Command
         $this->checkCompanies();
 
         \Session::forget('isUpdateProcedure');
-        $this->info('---- DONE -----');
 
         return self::SUCCESS;
     }
