@@ -79,9 +79,9 @@ class PeppolService
         }
     }
 
-    public function checkIdentifiers($vat, $firma = null, $check_registered_digital = false)
+    public function checkIdentifiers($vat, $firma = null, $check_registered_digital = false, $country_code = 'BE')
     {
-        $identifiers = $this->getPEPPOLIdentifiers($vat);
+        $identifiers = $this->getPEPPOLIdentifiers($vat, false, $country_code);
 
         if(!is_null($firma) && !$check_registered_digital){
             $company_peppol_scheme_id = \Config::get('peppol.table-fields.companies.peppol_scheme_id', 'peppol_scheme_id');
@@ -158,10 +158,15 @@ class PeppolService
         return $answer;
     }
 
-    public function getPEPPOLIdentifiers($vatNumber, $only_scheme = false)
+    public function getPEPPOLIdentifiers($vatNumber, $only_scheme = false, $country_code = 'BE')
     {
         $vatNumber     = strtoupper($vatNumber);
         $vatNumber     = str_replace('.', '', str_replace(" ", "", $vatNumber));
+
+        if (!preg_match('/^[A-Za-z]{2}/', $vatNumber)) {
+            $vatNumber = $country_code . $vatNumber;
+        }
+
         $identifiers   = [];
         $vatIdentifier = $this->getVATPEPPOLIdentifier($vatNumber, $only_scheme);
         if ($vatIdentifier != null) {
